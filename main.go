@@ -1,6 +1,11 @@
 package main
 
+import (
+	"CRUDAPI/database"
+	"CRUDAPI/router"
+)
+
 func main() {
-	DataMigration()
-	HandlerRouting()
+	database.DataMigration()
+	router.HandlerRouting()
 }
