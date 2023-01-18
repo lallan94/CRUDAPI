@@ -10,3 +10,7 @@
 
 
 In thunder client enter "http://localhost:8080/studentpost" for creation(post) student data.
+For get data enter "/studentget" after port number.
+for update(PUT) data enter "/student/id".
+for delet data enter "/studentdelete/id".
+for getting only one student data enter "studentget/id".
