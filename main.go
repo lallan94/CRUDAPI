@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	database.DataMigration()
+	config := database.GetConfig()
+	database.DataMigration(config)
 	router.HandlerRouting()
 }
