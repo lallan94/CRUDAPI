@@ -8,5 +8,6 @@ import (
 func main() {
 	config := database.GetConfig()
 	database.DataMigration(config)
-	router.HandlerRouting()
+	c := router.Getcontroller()
+	router.HandlerRouting(c)
 }

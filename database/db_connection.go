@@ -15,6 +15,7 @@ import (
 var Database *gorm.DB
 
 const projectDirName = "CRUDAPI" // change to relevant project name
+
 type Config struct {
 	DB *DBConfig
 }
