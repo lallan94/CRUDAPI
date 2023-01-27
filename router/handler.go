@@ -40,6 +40,7 @@ func (s *controller) GetStudent(w http.ResponseWriter, r *http.Request) {
 func (s *controller) GetStudentByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var student dataentity.Studentdata
+	json.NewDecoder(r.Body).Decode(&student)
 	database.Database.First(&student, mux.Vars(r)["eid"])
 	json.NewEncoder(w).Encode(student)
 }
@@ -55,7 +56,8 @@ func (s *controller) UpdateStudent(w http.ResponseWriter, r *http.Request) {
 
 func (s *controller) DeleteStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var delstudent dataentity.Studentdata                    //create variable delstudent
+	var delstudent dataentity.Studentdata //create variable delstudent
+	json.NewDecoder(r.Body).Decode(&delstudent)
 	database.Database.Delete(&delstudent, mux.Vars(r)["id"]) // deletes value matching given conditions. If value contains primary key it is included in the conditions.
 	json.NewEncoder(w).Encode("employee is deleted ")
 }
