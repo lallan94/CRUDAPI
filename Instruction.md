@@ -18,3 +18,22 @@ Before execution this program, first install fallowing driver.
 * For getting only one student data enter "studentgetbyid" and send iD number in body in JSON format.
 * For update(PUT) data enter "/studentupdate" and send id number(which you want to update) in body.
 * For delet data enter "/studentdelete". and send id number in body format.
+
+# Result
+
+*SS of Post data( id no 3).
+*![Post data](https://user-images.githubusercontent.com/110240909/216266779-7c5ad13a-d5bd-476f-b8d1-7888b43f638f.png)
+
+* SS of get all data
+![Get all data](https://user-images.githubusercontent.com/110240909/216264489-5f4da279-1afa-4802-87e6-0d10aac5f787.png)
+
+* SS of get by ID (id no2).
+* ![Get by id](https://user-images.githubusercontent.com/110240909/216264880-a54c5ad8-cd70-4413-9f27-c74cbc0dff0f.png)
+
+* SS of Updated Name, Id and Email ( id no 2).
+* ![Update](https://user-images.githubusercontent.com/110240909/216265298-0c41f385-c2ae-4307-8d20-b144bbceab28.png)
+
+*SS of Deleted data (id no 3)
+![Delete](https://user-images.githubusercontent.com/110240909/216265425-bfe50b27-3a58-4d86-89c4-2aac935a13ce.png)
+
+
