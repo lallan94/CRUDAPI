@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Intitalize Interface
 type Controller interface {
 	CreateStudent(w http.ResponseWriter, r *http.Request)
 	GetStudent(w http.ResponseWriter, r *http.Request)
@@ -22,42 +23,42 @@ type controller struct {
 func Getcontroller() Controller {
 	return &controller{}
 }
-func (s *controller) CreateStudent(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var stu dataentity.Studentdata
-	json.NewDecoder(r.Body).Decode(&stu)
-	database.Database.Create(&stu)
+func (c *controller) CreateStudent(w http.ResponseWriter, r *http.Request) { // initialize methode
+	w.Header().Set("Content-Type", "application/json") // By setting the Content-Type header, the server can inform the client that JSON data is being sent. Through the ResponseWriter
+	var stu dataentity.Studentdata                     // Create a variable "stu" type of stu is Studentdata which is define in dataentity file.
+	json.NewDecoder(r.Body).Decode(&stu)               //The request body is parsed by json NewDecoder and the data is stored in the stu struct.
+	database.Database.Create(&stu)                     // create a table in database using (gorm.DB).create package.
 	json.NewEncoder(w).Encode(stu)
 }
 
-func (s *controller) GetStudent(w http.ResponseWriter, r *http.Request) {
+func (c *controller) GetStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var students []dataentity.Studentdata
-	database.Database.Find(&students)
+	var students []dataentity.Studentdata //initialize slice of students and therie types is studentdata.
+	database.Database.Find(&students)     // find all data Using (gorm.DB).Find
 	json.NewEncoder(w).Encode(students)
 }
 
-func (s *controller) GetStudentByID(w http.ResponseWriter, r *http.Request) {
+func (c *controller) GetStudentByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var student dataentity.Studentdata
-	json.NewDecoder(r.Body).Decode(&student)
-	database.Database.First(&student, mux.Vars(r)["eid"])
+	json.NewDecoder(r.Body).Decode(&student)              //The request body is parsed by json( like retrive id from request body)
+	database.Database.First(&student, mux.Vars(r)["eid"]) // First finds the first record ordered by primary key, matching given conditions conds.
 	json.NewEncoder(w).Encode(student)
 }
 
-func (s *controller) UpdateStudent(w http.ResponseWriter, r *http.Request) {
+func (c *controller) UpdateStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var upstudent dataentity.Studentdata
-	database.Database.First(&upstudent, mux.Vars(r)["eid"])
-	json.NewDecoder(r.Body).Decode(&upstudent) //decode request body and update
-	database.Database.Save(&upstudent)         // updated data save in DB
+	json.NewDecoder(r.Body).Decode(&upstudent)              //decode request body and store in Upstudent variable.
+	database.Database.First(&upstudent, mux.Vars(r)["eid"]) // using find first record ordered by primary Key.
+	database.Database.Save(&upstudent)                      // updated data save in DB fallowed by primary key using (gorm.DB).Save.
 	json.NewEncoder(w).Encode(upstudent)
 }
 
-func (s *controller) DeleteStudent(w http.ResponseWriter, r *http.Request) {
+func (c *controller) DeleteStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	var delstudent dataentity.Studentdata //create variable delstudent
-	json.NewDecoder(r.Body).Decode(&delstudent)
+	var delstudent dataentity.Studentdata
+	json.NewDecoder(r.Body).Decode(&delstudent)              //The request body is parsed by json( like retrive id from request body)
 	database.Database.Delete(&delstudent, mux.Vars(r)["id"]) // deletes value matching given conditions. If value contains primary key it is included in the conditions.
 	json.NewEncoder(w).Encode("employee is deleted ")
 }

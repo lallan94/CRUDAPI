@@ -16,9 +16,6 @@ var Database *gorm.DB
 
 const projectDirName = "CRUDAPI" // change to relevant project name
 
-type Config struct {
-	DB *DBConfig
-}
 type DBConfig struct {
 	Connection string
 	Host       string
@@ -27,6 +24,9 @@ type DBConfig struct {
 	Password   string
 	Name       string
 	Charset    string
+}
+type Config struct {
+	DB *DBConfig
 }
 
 func loadEnv() {
