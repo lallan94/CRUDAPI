@@ -41,24 +41,38 @@ func (c *controller) GetStudent(w http.ResponseWriter, r *http.Request) {
 func (c *controller) GetStudentByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var student dataentity.Studentdata
-	json.NewDecoder(r.Body).Decode(&student)              //The request body is parsed by json( like retrive id from request body) an passed to student
-	database.Database.First(&student, mux.Vars(r)["eid"]) // First finds the first record ordered by primary key, matching given conditions conds.
-	json.NewEncoder(w).Encode(student)
+	json.NewDecoder(r.Body).Decode(&student)                        //The request body is parsed by json( like retrive id from request body) an passed to student
+	result := database.Database.First(&student, mux.Vars(r)["eid"]) // First finds the first record ordered by primary key, matching given conditions conds.
+	if result.Error != nil {
+		json.NewEncoder(w).Encode("No data found")
+		return
+	} else {
+		json.NewEncoder(w).Encode(student)
+	}
+
 }
 
 func (c *controller) UpdateStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var upstudent dataentity.Studentdata
-	database.Database.First(&upstudent, mux.Vars(r)["eid"]) // using find first record ordered by primary Key.
-	json.NewDecoder(r.Body).Decode(&upstudent)              //decode request body and passing to Upstudent variable.
-	database.Database.Save(&upstudent)                      // updated data save in DB fallowed by primary key using (gorm.DB).Save.
-	json.NewEncoder(w).Encode(upstudent)
+	num := mux.Vars(r)["eid"]
+	database.Database.First(&upstudent, num)
+	json.NewDecoder(r.Body).Decode(&upstudent)
+	database.Database.Save(&upstudent)
+	json.NewEncoder(w).Encode(&upstudent)
 }
 
 func (c *controller) DeleteStudent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var delstudent dataentity.Studentdata
-	json.NewDecoder(r.Body).Decode(&delstudent)               //The request body is parsed by json( like retrive id from request body)
-	database.Database.Delete(&delstudent, mux.Vars(r)["eid"]) // deletes value matching given conditions. If value contains primary key it is included in the conditions.
-	json.NewEncoder(w).Encode("employee is deleted ")
+	json.NewDecoder(r.Body).Decode(&delstudent)
+	result := database.Database.First(&delstudent, mux.Vars(r)["eid"])
+	if result.Error != nil {
+		json.NewEncoder(w).Encode("This Id data is not available")
+		return
+	} else {
+		database.Database.Delete(&delstudent, mux.Vars(r)["eid"]) // deletes value matching given conditions. If value contains primary key it is included in the conditions.
+		json.NewEncoder(w).Encode("employee is deleted ")
+	}
+
 }
